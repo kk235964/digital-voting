@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('https://digital-voting-1.onrender.com/api/auth/login', {
         email,
         password
       });
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', userData);
+      const response = await axios.post('https://digital-voting-1.onrender.com/api/auth/register', userData);
       return { success: true, message: response.data.message };
     } catch (error) {
       return { 

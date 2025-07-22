@@ -18,7 +18,7 @@ const VotingPage = () => {
   const [success, setSuccess] = useState('');
   const [showConfetti, setShowConfetti] = useState(false);
 
-  const API_URL = 'https://digital-voting-2gdr.onrender.com/api/';
+  const API_URL = 'https://digital-voting-1.onrender.com/api/';
 
   const fetchElectionData = useCallback(async () => {
     try {

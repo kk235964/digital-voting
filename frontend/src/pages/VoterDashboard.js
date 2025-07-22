@@ -8,7 +8,7 @@ const VoterDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const API_URL = 'https://digital-voting-2gdr.onrender.com/api/';
+  const API_URL = 'https://digital-voting-1.onrender.com/api/';
 
   const fetchElections = useCallback(async () => {
     try {

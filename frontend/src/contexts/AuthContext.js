@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   // Set up axios defaults
   useEffect(() => {
-    axios.defaults.baseURL = 'https://digital-voting-2gdr.onrender.com/api/';
+    axios.defaults.baseURL = 'https://digital-voting-1.onrender.com/api/';
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } else {

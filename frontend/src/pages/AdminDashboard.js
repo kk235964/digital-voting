@@ -27,7 +27,7 @@ const AdminDashboard = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editElection, setEditElection] = useState(null);
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+  const API_URL = 'https://digital-voting-2gdr.onrender.com/api/';
 
   const fetchElections = useCallback(async () => {
     try {

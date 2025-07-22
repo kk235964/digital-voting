@@ -14,7 +14,7 @@ const ManageCandidates = () => {
   const [editCandidate, setEditCandidate] = useState(null);
   const [formData, setFormData] = useState({ name: '', bio: '' });
 
-  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+  const API_URL = 'https://digital-voting-2gdr.onrender.com/api/';
 
   const fetchElectionAndCandidates = useCallback(async () => {
     setLoading(true);

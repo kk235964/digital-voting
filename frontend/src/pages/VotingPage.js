@@ -18,11 +18,13 @@ const VotingPage = () => {
   const [success, setSuccess] = useState('');
   const [showConfetti, setShowConfetti] = useState(false);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
   const fetchElectionData = useCallback(async () => {
     try {
       const [electionResponse, candidatesResponse] = await Promise.all([
-        axios.get(`http://localhost:5000/api/elections/${electionId}`),
-        axios.get(`http://localhost:5000/api/candidates`)
+        axios.get(`${API_URL}/elections/${electionId}`),
+        axios.get(`${API_URL}/candidates`)
       ]);
       setElection(electionResponse.data);
       const electionCandidates = candidatesResponse.data.filter(c => {
@@ -39,7 +41,7 @@ const VotingPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [electionId]);
+  }, [electionId, API_URL]);
 
   useEffect(() => {
     fetchElectionData();

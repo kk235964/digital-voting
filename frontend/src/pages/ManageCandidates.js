@@ -14,12 +14,14 @@ const ManageCandidates = () => {
   const [editCandidate, setEditCandidate] = useState(null);
   const [formData, setFormData] = useState({ name: '', bio: '' });
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
   const fetchElectionAndCandidates = useCallback(async () => {
     setLoading(true);
     try {
       const [electionRes, candidatesRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/elections/${electionId}`),
-        axios.get(`http://localhost:5000/api/candidates`)
+        axios.get(`${API_URL}/elections/${electionId}`),
+        axios.get(`${API_URL}/candidates`)
       ]);
       setElection(electionRes.data);
       setCandidates(candidatesRes.data.filter(c => {
@@ -34,7 +36,7 @@ const ManageCandidates = () => {
     } finally {
       setLoading(false);
     }
-  }, [electionId]);
+  }, [electionId, API_URL]);
 
   useEffect(() => {
     fetchElectionAndCandidates();
@@ -47,7 +49,7 @@ const ManageCandidates = () => {
   const handleAddCandidate = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/candidates', {
+      await axios.post(`${API_URL}/candidates`, {
         ...formData,
         election: electionId
       });
@@ -68,7 +70,7 @@ const ManageCandidates = () => {
   const handleUpdateCandidate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/candidates/${editCandidate._id}`, {
+      await axios.put(`${API_URL}/candidates/${editCandidate._id}`, {
         ...formData,
         election: electionId
       });
@@ -84,7 +86,7 @@ const ManageCandidates = () => {
   const handleDeleteCandidate = async (candidateId) => {
     if (window.confirm('Are you sure you want to delete this candidate?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/candidates/${candidateId}`);
+        await axios.delete(`${API_URL}/candidates/${candidateId}`);
         fetchElectionAndCandidates();
       } catch (err) {
         setError('Failed to delete candidate');

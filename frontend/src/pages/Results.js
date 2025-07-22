@@ -43,11 +43,13 @@ const Results = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
   const fetchResults = useCallback(async () => {
     try {
       const [electionResponse, resultsResponse] = await Promise.all([
-        axios.get(`http://localhost:5000/api/elections/${electionId}`),
-        axios.get(`http://localhost:5000/api/results/${electionId}`)
+        axios.get(`${API_URL}/elections/${electionId}`),
+        axios.get(`${API_URL}/results/${electionId}`)
       ]);
       setElection(electionResponse.data);
       setResults(resultsResponse.data.candidates || []);
@@ -57,7 +59,7 @@ const Results = () => {
     } finally {
       setLoading(false);
     }
-  }, [electionId]);
+  }, [electionId, API_URL]);
 
   useEffect(() => {
     fetchResults();

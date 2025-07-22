@@ -27,13 +27,15 @@ const AdminDashboard = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [editElection, setEditElection] = useState(null);
 
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
   useEffect(() => {
     fetchElections();
   }, []);
 
   const fetchElections = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/elections');
+      const response = await axios.get(`${API_URL}/elections`);
       setElections(response.data);
     } catch (err) {
       setError('Failed to fetch elections');
@@ -46,7 +48,7 @@ const AdminDashboard = () => {
   const handleCreateElection = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/elections', formData);
+      await axios.post(`${API_URL}/elections`, formData);
       setShowCreateForm(false);
       setFormData({ title: '', description: '', startDate: '', endDate: '' });
       fetchElections();
@@ -59,7 +61,7 @@ const AdminDashboard = () => {
   const handleDeleteElection = async (electionId) => {
     if (window.confirm('Are you sure you want to delete this election?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/elections/${electionId}`);
+        await axios.delete(`${API_URL}/elections/${electionId}`);
         fetchElections();
       } catch (err) {
         setError('Failed to delete election');
@@ -82,7 +84,7 @@ const AdminDashboard = () => {
   const handleUpdateElection = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/elections/${editElection._id}`, formData);
+      await axios.put(`${API_URL}/elections/${editElection._id}`, formData);
       setShowEditForm(false);
       setEditElection(null);
       setFormData({ title: '', description: '', startDate: '', endDate: '' });
@@ -94,7 +96,7 @@ const AdminDashboard = () => {
 
   const downloadCSV = async (electionId, electionTitle) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/reports/${electionId}/csv`, {
+      const response = await axios.get(`${API_URL}/reports/${electionId}/csv`, {
         responseType: 'blob'
       });
       

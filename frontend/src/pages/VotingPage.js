@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaVoteYea, FaUser, FaClock, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
@@ -18,20 +18,13 @@ const VotingPage = () => {
   const [success, setSuccess] = useState('');
   const [showConfetti, setShowConfetti] = useState(false);
 
-  useEffect(() => {
-    fetchElectionData();
-  }, [electionId, fetchElectionData]);
-
-  const fetchElectionData = async () => {
+  const fetchElectionData = useCallback(async () => {
     try {
       const [electionResponse, candidatesResponse] = await Promise.all([
         axios.get(`http://localhost:5000/api/elections/${electionId}`),
         axios.get(`http://localhost:5000/api/candidates`)
       ]);
-
       setElection(electionResponse.data);
-      
-      // Filter candidates for this election
       const electionCandidates = candidatesResponse.data.filter(c => {
         const candidateElectionId =
           typeof c.election === 'object' && c.election !== null
@@ -46,7 +39,11 @@ const VotingPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [electionId]);
+
+  useEffect(() => {
+    fetchElectionData();
+  }, [electionId, fetchElectionData]);
 
   const handleVote = async () => {
     if (!selectedCandidate) {

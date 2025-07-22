@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaPlus, FaEdit, FaTrash, FaArrowLeft } from 'react-icons/fa';
@@ -14,11 +14,7 @@ const ManageCandidates = () => {
   const [editCandidate, setEditCandidate] = useState(null);
   const [formData, setFormData] = useState({ name: '', bio: '' });
 
-  useEffect(() => {
-    fetchElectionAndCandidates();
-  }, [electionId, fetchElectionAndCandidates]);
-
-  const fetchElectionAndCandidates = async () => {
+  const fetchElectionAndCandidates = useCallback(async () => {
     setLoading(true);
     try {
       const [electionRes, candidatesRes] = await Promise.all([
@@ -26,20 +22,23 @@ const ManageCandidates = () => {
         axios.get(`http://localhost:5000/api/candidates`)
       ]);
       setElection(electionRes.data);
-      const electionCandidates = candidatesRes.data.filter(c => {
+      setCandidates(candidatesRes.data.filter(c => {
         const candidateElectionId =
           typeof c.election === 'object' && c.election !== null
             ? c.election._id
             : c.election;
         return String(candidateElectionId) === String(electionId);
-      });
-      setCandidates(electionCandidates);
+      }));
     } catch (err) {
       setError('Failed to fetch data');
     } finally {
       setLoading(false);
     }
-  };
+  }, [electionId]);
+
+  useEffect(() => {
+    fetchElectionAndCandidates();
+  }, [electionId, fetchElectionAndCandidates]);
   
   const handleFormChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

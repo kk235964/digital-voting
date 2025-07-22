@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaArrowLeft, FaChartBar, FaUser, FaVoteYea, FaClock } from 'react-icons/fa';
@@ -43,17 +43,12 @@ const Results = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchResults();
-  }, [electionId, fetchResults]);
-
-  const fetchResults = async () => {
+  const fetchResults = useCallback(async () => {
     try {
       const [electionResponse, resultsResponse] = await Promise.all([
         axios.get(`http://localhost:5000/api/elections/${electionId}`),
         axios.get(`http://localhost:5000/api/results/${electionId}`)
       ]);
-
       setElection(electionResponse.data);
       setResults(resultsResponse.data.candidates || []);
     } catch (err) {
@@ -62,7 +57,11 @@ const Results = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [electionId]);
+
+  useEffect(() => {
+    fetchResults();
+  }, [electionId, fetchResults]);
 
   const calculateTotalVotes = () => {
     return results.reduce((total, candidate) => total + candidate.votes, 0);

@@ -16,7 +16,7 @@ const ManageCandidates = () => {
 
   useEffect(() => {
     fetchElectionAndCandidates();
-  }, [electionId]);
+  }, [electionId, fetchElectionAndCandidates]);
 
   const fetchElectionAndCandidates = async () => {
     setLoading(true);

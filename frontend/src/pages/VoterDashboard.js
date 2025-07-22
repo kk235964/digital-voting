@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { FaVoteYea, FaEye, FaClock, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaVoteYea, FaEye, FaClock, FaTimesCircle } from 'react-icons/fa';
 
 const VoterDashboard = () => {
   const [elections, setElections] = useState([]);

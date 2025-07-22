@@ -45,7 +45,7 @@ const Results = () => {
 
   useEffect(() => {
     fetchResults();
-  }, [electionId]);
+  }, [electionId, fetchResults]);
 
   const fetchResults = async () => {
     try {

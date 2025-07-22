@@ -20,7 +20,7 @@ const VotingPage = () => {
 
   useEffect(() => {
     fetchElectionData();
-  }, [electionId]);
+  }, [electionId, fetchElectionData]);
 
   const fetchElectionData = async () => {
     try {

@@ -10,7 +10,6 @@ import {
   FaUsers, 
   FaChartBar,
   FaClock,
-  FaCheckCircle,
   FaTimesCircle
 } from 'react-icons/fa';
 

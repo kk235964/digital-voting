@@ -57,7 +57,7 @@ const VotingPage = () => {
     setError('');
 
     try {
-      await axios.post('http://localhost:5000/api/vote', {
+      await axios.post('https://digital-voting-1.onrender.com/api/vote', {
         electionId,
         candidateId: selectedCandidate
       });

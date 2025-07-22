@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaVoteYea, FaEye, FaClock, FaTimesCircle } from 'react-icons/fa';
@@ -8,13 +8,9 @@ const VoterDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    fetchElections();
-  }, []);
-
   const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-  const fetchElections = async () => {
+  const fetchElections = useCallback(async () => {
     try {
       const response = await axios.get(`${API_URL}/elections`);
       setElections(response.data);
@@ -24,7 +20,11 @@ const VoterDashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchElections();
+  }, [fetchElections]);
 
   const isElectionActive = (election) => {
     const now = new Date();

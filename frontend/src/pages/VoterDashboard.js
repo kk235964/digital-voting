@@ -20,7 +20,7 @@ const VoterDashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [API_URL]);
 
   useEffect(() => {
     fetchElections();
